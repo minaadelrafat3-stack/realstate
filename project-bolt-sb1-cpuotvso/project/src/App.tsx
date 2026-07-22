@@ -1,4 +1,5 @@
 import { BookingProvider } from '@/lib/booking-context';
+import { AuthProvider } from '@/lib/auth-context';
 import { Navbar } from '@/components/Navbar';
 import { Footer } from '@/components/Footer';
 import { useRoute } from '@/lib/router';
@@ -12,11 +13,15 @@ import { GalleryPage } from '@/pages/GalleryPage';
 import { ContactPage } from '@/pages/ContactPage';
 import { FaqPage } from '@/pages/FaqPage';
 import { PrivacyPage } from '@/pages/PrivacyPage';
+import { LoginPage } from '@/pages/LoginPage';
+import { AdminPage } from '@/pages/AdminPage';
 
 function Router() {
   const route = useRoute();
   const path = route.path;
 
+  if (path === '/login') return <LoginPage />;
+  if (path === '/admin') return <AdminPage />;
   if (path === '/') return <HomePage />;
   if (path === '/rooms') return <RoomsPage />;
   if (path.startsWith('/rooms/')) return <RoomDetailsPage />;
@@ -41,13 +46,15 @@ function Router() {
 
 function App() {
   return (
-    <BookingProvider>
-      <div className="min-h-screen bg-white">
-        <Navbar />
-        <Router />
-        <Footer />
-      </div>
-    </BookingProvider>
+    <AuthProvider>
+      <BookingProvider>
+        <div className="min-h-screen bg-white">
+          <Navbar />
+          <Router />
+          <Footer />
+        </div>
+      </BookingProvider>
+    </AuthProvider>
   );
 }
 
