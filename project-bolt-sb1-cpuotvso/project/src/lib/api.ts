@@ -90,12 +90,11 @@ export async function getBookingsForRoom(
   roomId: string,
   startDate: string,
   endDate: string,
-): Promise<Booking[]> {
+): Promise<Pick<Booking, 'room_id' | 'check_in' | 'check_out' | 'status'>[]> {
   const { data, error } = await supabase
-    .from('bookings')
-    .select('*')
+    .from('room_availability')
+    .select('room_id, check_in, check_out, status')
     .eq('room_id', roomId)
-    .in('status', ['pending', 'confirmed'])
     .or(`and(check_in.lt.${endDate},check_out.gt.${startDate})`);
   if (error) throw error;
   return data ?? [];
