@@ -126,7 +126,7 @@ export function ContactPage() {
                     <input type="text" required value={name} onChange={(e) => setName(e.target.value)}
                       className="w-full rounded-xl border border-stone-200 px-3 py-2.5 text-sm outline-none focus:border-teal-500" />
                   </div>
-                  <div className="grid grid-cols-2 gap-3">
+                  <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                     <div>
                       <label className="mb-1 block text-xs font-semibold uppercase tracking-wider text-stone-500">Email</label>
                       <input type="email" required value={email} onChange={(e) => setEmail(e.target.value)}

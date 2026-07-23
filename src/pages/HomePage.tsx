@@ -70,11 +70,11 @@ export function HomePage() {
           </div>
         </div>
 
-        <div className="absolute bottom-32 left-0 right-0 z-10 mx-auto max-w-5xl px-4">
+        <div className="absolute bottom-24 left-0 right-0 z-10 mx-auto max-w-5xl px-4 sm:bottom-28 lg:bottom-32">
           <SearchForm variant="hero" />
         </div>
 
-        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 animate-bounce text-white/60">
+        <div className="absolute bottom-4 left-1/2 hidden -translate-x-1/2 animate-bounce text-white/60 sm:block lg:bottom-6">
           <ChevronDown size={28} />
         </div>
       </section>

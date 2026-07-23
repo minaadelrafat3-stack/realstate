@@ -58,8 +58,8 @@ export function AdminPage() {
       <header className="sticky top-0 z-30 border-b border-stone-200 bg-white shadow-sm">
         <div className="flex items-center justify-between px-4 py-3 lg:px-8">
           <div className="flex items-center gap-3">
-            <span className="text-lg font-bold text-stone-900">Azure Bay Admin</span>
-            <span className="hidden rounded-full bg-teal-100 px-3 py-0.5 text-xs font-semibold text-teal-700 sm:inline">
+            <span className="text-base font-bold text-stone-900 sm:text-lg">Azure Bay Admin</span>
+            <span className="hidden rounded-full bg-teal-100 px-3 py-0.5 text-xs font-semibold text-teal-700 md:inline">
               {user.email}
             </span>
           </div>
@@ -74,6 +74,24 @@ export function AdminPage() {
           </div>
         </div>
       </header>
+
+      {/* Mobile tabs */}
+      <div className="flex gap-2 overflow-x-auto border-b border-stone-200 bg-white px-4 py-2 lg:hidden">
+        {TABS.map((t) => {
+          const Icon = t.icon;
+          return (
+            <button
+              key={t.id}
+              onClick={() => setTab(t.id)}
+              className={`flex shrink-0 items-center gap-1.5 rounded-lg px-3 py-2 text-xs font-semibold transition ${
+                tab === t.id ? 'bg-teal-500 text-stone-950' : 'bg-stone-100 text-stone-600'
+              }`}
+            >
+              <Icon size={14} /> {t.label}
+            </button>
+          );
+        })}
+      </div>
 
       <div className="mx-auto flex max-w-7xl gap-6 px-4 py-6 lg:px-8">
         {/* Sidebar */}
@@ -99,23 +117,8 @@ export function AdminPage() {
           </ul>
         </nav>
 
-        {/* Mobile tabs */}
-        <div className="flex gap-2 overflow-x-auto pb-2 lg:hidden">
-          {TABS.map((t) => (
-            <button
-              key={t.id}
-              onClick={() => setTab(t.id)}
-              className={`shrink-0 rounded-lg px-3 py-2 text-xs font-semibold transition ${
-                tab === t.id ? 'bg-teal-500 text-stone-950' : 'bg-white text-stone-600'
-              }`}
-            >
-              {t.label}
-            </button>
-          ))}
-        </div>
-
         {/* Content */}
-        <div className="flex-1">
+        <div className="min-w-0 flex-1">
           {tab === 'overview' && <OverviewTab onNavigate={setTab} />}
           {tab === 'bookings' && <BookingsTab />}
           {tab === 'rooms' && <RoomsTab />}
@@ -240,7 +243,9 @@ function BookingsTab() {
       {bookings.length === 0 ? (
         <EmptyState message="No bookings yet." />
       ) : (
-        <div className="overflow-x-auto rounded-2xl bg-white shadow-sm">
+        <>
+        {/* Desktop table */}
+        <div className="hidden overflow-x-auto rounded-2xl bg-white shadow-sm md:block">
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b border-stone-200 text-left text-xs uppercase text-stone-500">
@@ -286,6 +291,44 @@ function BookingsTab() {
             </tbody>
           </table>
         </div>
+
+        {/* Mobile cards */}
+        <div className="space-y-3 md:hidden">
+          {bookings.map((b) => (
+            <div key={b.id} className="rounded-2xl bg-white p-4 shadow-sm">
+              <div className="flex items-start justify-between gap-2">
+                <div className="min-w-0">
+                  <p className="font-semibold text-stone-900">{b.guest_name}</p>
+                  <p className="truncate text-xs text-stone-500">{b.guest_email}</p>
+                  {b.guest_phone && <p className="text-xs text-stone-400">{b.guest_phone}</p>}
+                </div>
+                <StatusBadge status={b.status} />
+              </div>
+              <div className="mt-3 flex items-center justify-between text-sm">
+                <div className="text-stone-600">
+                  {formatDate(b.check_in)} → {formatDate(b.check_out)}
+                </div>
+                <div className="font-semibold text-stone-900">{formatPrice(b.total_price)}</div>
+              </div>
+              <div className="mt-3 flex items-center gap-2">
+                <select
+                  value={b.status}
+                  onChange={(e) => updateStatus(b.id, e.target.value)}
+                  className="flex-1 rounded-lg border border-stone-200 px-2 py-1.5 text-xs text-stone-700 outline-none focus:border-teal-500"
+                >
+                  <option value="pending">Pending</option>
+                  <option value="confirmed">Confirmed</option>
+                  <option value="cancelled">Cancelled</option>
+                  <option value="completed">Completed</option>
+                </select>
+                <button onClick={() => handleDelete(b.id)} className="rounded-lg p-2 text-stone-400 transition hover:bg-rose-50 hover:text-rose-500">
+                  <Trash2 size={16} />
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+        </>
       )}
     </div>
   );
@@ -625,7 +668,7 @@ function GalleryTab() {
               <span className="rounded-full bg-stone-100 px-2 py-0.5 text-xs font-semibold text-stone-600">{item.category}</span>
               {item.caption && <p className="mt-1 text-xs text-stone-500">{item.caption}</p>}
             </div>
-            <button onClick={() => handleDelete(item.id)} className="absolute right-2 top-2 rounded-lg bg-stone-950/70 p-1.5 text-white opacity-0 transition group-hover:opacity-100 hover:bg-rose-500">
+            <button onClick={() => handleDelete(item.id)} className="absolute right-2 top-2 rounded-lg bg-stone-950/70 p-1.5 text-white opacity-100 transition hover:bg-rose-500 sm:opacity-0 sm:group-hover:opacity-100">
               <Trash2 size={14} />
             </button>
           </div>

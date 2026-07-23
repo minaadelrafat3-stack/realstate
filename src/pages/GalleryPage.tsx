@@ -71,9 +71,9 @@ export function GalleryPage() {
                     className="h-64 w-full object-cover transition duration-500 group-hover:scale-110"
                     loading="lazy"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-stone-950/70 to-transparent opacity-0 transition group-hover:opacity-100" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-stone-950/70 to-transparent opacity-100 transition sm:opacity-0 sm:group-hover:opacity-100" />
                   {item.caption && (
-                    <p className="absolute bottom-4 left-4 text-sm font-semibold text-white opacity-0 transition group-hover:opacity-100">
+                    <p className="absolute bottom-4 left-4 text-sm font-semibold text-white opacity-100 transition sm:opacity-0 sm:group-hover:opacity-100">
                       {item.caption}
                     </p>
                   )}

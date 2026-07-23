@@ -199,7 +199,7 @@ export function RoomDetailsPage() {
             onClick={() => setLightboxIndex(0)}
             className="group relative col-span-2 row-span-2 overflow-hidden rounded-2xl"
           >
-            <img src={allImages[0]} alt={room.name} className="h-full w-full object-cover transition group-hover:scale-105" />
+            <img src={allImages[0]} alt={room.name} className="h-64 w-full object-cover transition group-hover:scale-105 sm:h-full" />
           </button>
           {allImages.slice(1, 5).map((img, i) => (
             <button
@@ -302,7 +302,7 @@ export function RoomDetailsPage() {
                     return (
                       <div
                         key={i}
-                        className={`flex h-10 items-center justify-center rounded-lg text-sm ${
+                        className={`flex h-8 items-center justify-center rounded-lg text-sm sm:h-10 ${
                           isPast
                             ? 'text-stone-300'
                             : isBooked
